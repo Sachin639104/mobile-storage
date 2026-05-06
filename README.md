@@ -9,8 +9,6 @@ A full-stack mobile store management app built with React, Node.js and MongoDB.
 - Sales with receipt (Discount, GST, Payment Mode)
 - Sales History with Revenue tracker
 - Return/Exchange management
-- Staff login (role based access)
-- Festival notifications
 - Low stock alert
 
 ## Tech Stack
