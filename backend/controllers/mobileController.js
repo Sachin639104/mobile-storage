@@ -1,5 +1,4 @@
-//const Mobile = require('../models/Mobile');
-//const Receipt = require('../models/Receipt');
+
 import Mobile from '../models/Mobile.js'
 import Receipt from '../models/Receipt.js'
 const getMobiles = async (req, res) => {
@@ -11,15 +10,7 @@ const getMobiles = async (req, res) => {
   }
 };
 
-//const addMobile = async (req, res) => {
-  //try {
-    //const mobile = await Mobile.create(req.body);
-    //res.status(201).json(mobile);
-  //} catch (error) {
-    //res.status(400).json({ message: error.message });
- // }
-  //};
-  
+
 const addMobile = async (req, res) => {
   try {
     const { modelName, brand, price, stockQuantity } = req.body
