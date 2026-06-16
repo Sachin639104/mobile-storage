@@ -5,16 +5,23 @@ export const login = async (req, res) => {
   const { username, password } = req.body
   const user = await User.findOne({ username, password })
   if (!user) return res.status(401).json({ message: 'Wrong username or password' })
-  res.json({ success: true })
+  res.json({ success: true ,role :user.role, username: user.username })
+}
+
+export const register = async (req, res) => {
+  const { username, password , phone ,role } = req.body
+  const user = await User.create({ username, password , phone , role })
+  if (user) return res.status(401).json({ message: 'login suceessfully!' })
+  res.json({ success: true ,role :user.role, username: user.username })
 }
 
 
 // OTP bhejo
 export const forgotPassword = async (req, res) => {
   try {
-    const { phone } = req.body
+    const { phone , role } = req.body
     console.log('phone number received:', phone)
-    const user = await User.findOne({ phone })
+    const user = await User.findOne({ phone ,role })
     console.log('User found:', user)
     if (!user) return res.status(404).json({ message: 'phone number  not found!' })
     
