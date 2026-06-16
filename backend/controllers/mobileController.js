@@ -9,8 +9,6 @@ const getMobiles = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
 const addMobile = async (req, res) => {
   try {
     const { modelName, brand, price, stockQuantity } = req.body

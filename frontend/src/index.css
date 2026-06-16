@@ -1,35 +1,309 @@
-@import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind  utilities;
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  background: #05070a;
-  color: white;
+  font-family: 'Arial', sans-serif;
+  background: #000;
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  color: #e8f0fe;
+  font-size: 18px;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #040812; }
+::-webkit-scrollbar-thumb { background: rgba(0,255,180,0.3); border-radius: 3px; }
 
 
-.bg-gradient-mesh {
-  background: 
-    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(147, 51, 234, 0.07) 0px, transparent 50%);
-  filter: blur(80px);
-  animation: mesh-float 15s infinite alternate ease-in-out;
+@keyframes gridShift {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
 }
 
-@keyframes mesh-float {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1) translate(2%, 2%); }
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, 20px); }
 }
 
-.apple-glass {
-  background: rgba(255, 255, 255, 0.03);
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Labels */
+.sv-label-tag {
+  font-family: 'Arial', monospace;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  color: #00ffb4;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.sv-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #e8f0fe;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.sv-subtitle {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 36px;
+  font-family: 'Arial', monospace;
+}
+
+.sv-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,255,180,0.2), transparent);
+  margin-bottom: 32px;
+}
+
+/* Inputs */
+.sv-input, .sv-select {
+  width: 100%;
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 4px !important;
+  padding: 13px 16px !important;
+  font-family: 'Arial', monospace !important;
+  font-size: 16px !important;
+  color: #e8f0fe !important;
+  outline: none !important;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.sv-input::placeholder { color: rgba(255,255,255,0.18) !important; }
+
+.sv-input:focus, .sv-select:focus {
+  border-color: rgba(0,255,180,0.4) !important;
+  background: rgba(0,255,180,0.03) !important;
+  box-shadow: 0 0 0 3px rgba(0,255,180,0.07) !important;
+}
+
+.sv-select option { background: #040812; color: #e8f0fe; }
+.sv-select { appearance: none; cursor: pointer; }
+
+/* Button */
+.sv-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(0,255,180,0.15) 0%, rgba(0,100,255,0.1) 100%) !important;
+  border: 1px solid rgba(0,255,180,0.35) !important;
+  border-radius: 4px !important;
+  color: #00ffb4 !important;
+  font-family: 'Arial', monospace !important;
+  font-size: 12px !important;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+.sv-btn:hover { box-shadow: 0 0 24px rgba(0,255,180,0.15) !important; }
+.sv-btn:active { transform: scale(0.99); }
+
+/* Error / Success */
+.sv-error {
+  background: rgba(255,60,60,0.08);
+  border: 1px solid rgba(255,60,60,0.25);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-family: 'Arial', monospace;
+  font-size: 11px;
+  color: #ff7070;
+}
+
+.sv-success {
+  background: rgba(0,255,180,0.08);
+  border: 1px solid rgba(0,255,180,0.25);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-family: 'Arial', monospace;
+  font-size: 11px;
+  color: #00ffb4;
+}
+
+/* Forgot link */
+.sv-forgot {
+  font-family: 'Arial', monospace;
+  font-size: 11px;
+  color: rgba(0,255,180,0.5);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+.sv-forgot:hover { color: #00ffb4; }
+
+/* Status bar */
+.sv-status {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Arial', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: rgba(0,255,180,0.25);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+.sv-status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #00ffb4;
+  opacity: 0.4;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.7; }
+}
+
+/* Navbar */
+.vault-nav {
+  background: rgba(8, 16, 32, 0.9) !important;
+  border-bottom: 1px solid rgba(0,255,180,0.1);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 0;
+}
+
+.vault-brand {
+  font-family: 'Arial', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #e8f0fe !important;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.vault-brand span { color: #00ffb4; }
+
+/* Cards */
+.mobile-card {
+  background: rgba(8, 16, 32, 0.85);
+  border: 1px solid rgba(0,255,180,0.1) !important;
+  border-radius: 8px !important;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.mobile-card:hover {
+  border-color: rgba(0,255,180,0.3) !important;
+  transform: translateY(-2px);
+}
+
+/* Stat cards */
+.stat-card {
+  background: rgba(8, 16, 32, 0.85);
+  border: 1px solid rgba(0,255,180,0.1);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* Badges */
+.badge-sold { background: rgba(0,255,180,0.15); color: #00ffb4; }
+.badge-returned { background: rgba(255,60,60,0.15); color: #ff7070; }
+.badge-exchanged { background: rgba(255,180,0,0.15); color: #ffb400; }
+
+/* Modal */
+.vault-modal {
+  background: rgba(8, 16, 32, 0.95);
+  border: 1px solid rgba(0,255,180,0.15);
+  border-radius: 8px;
+}
+
+/* Table */
+.vault-table {
+  color: #e8f0fe !important;
+}
+.vault-table thead th {
+  color: rgba(255,255,255,0.4) !important;
+  font-family: 'Arial', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(0,255,180,0.1) !important;
+  background: transparent !important;
+}
+.vault-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+}
+.vault-table tbody tr:hover {
+  background: rgba(0,255,180,0.03) !important;
+}
+.vault-table td {
+  border: none !important;
+  color: rgba(255,255,255,0.7) !important;
+  vertical-align: middle !important;
+}
+
+/* Search input */
+.vault-search {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: #e8f0fe !important;
+  border-radius: 6px !important;
+}
+.vault-search::placeholder { color: rgba(255,255,255,0.3) !important; }
+.vault-search:focus {
+  background: rgba(0,255,180,0.03) !important;
+  border-color: rgba(0,255,180,0.3) !important;
+  box-shadow: 0 0 0 3px rgba(0,255,180,0.07) !important;
+  color: #e8f0fe !important;
+}
+/* Bootstrap card override */
+.card {
+  background: rgba(8, 16, 32, 0.85) !important;
+  border: 1px solid rgba(0,255,180,0.1) !important;
+  color: #e8f0fe !important;
+}
+
+.register-card{
+
+  background: #fff !important;
+  color: #212529  !important;
+}
+
+.card * {
+  color: inherit;
+}
+
+/* Modal override */
+.modal-content {
+  background: rgba(8, 16, 32, 0.95) !important;
+  border: 1px solid rgba(0,255,180,0.15) !important;
+  color: #e8f0fe !important;
+}
+
+/* Table override */
+.table {
+  color: #e8f0fe !important;
+  --bs-table-bg: transparent !important;
+  --bs-table-striped-bg: transparent !important;
+  --bs-table-hover-bg: rgba(0,255,180,0.03) !important;
+}
+
+/* Select override */
+select, select option {
+  background: #040812 !important;
+  color: #e8f0fe !important;
+}
+
+/* Input override */
+input, textarea {
+  background: rgba(108, 155, 182, 0.03) !important;
+  color: #181b20 !important;
 }

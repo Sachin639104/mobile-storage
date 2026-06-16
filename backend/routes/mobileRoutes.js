@@ -54,5 +54,43 @@ router.patch('/:id/return', async (req, res) => {
   }
 })
 
-//module.exports = router;
+
+router.patch('/:id/exchange', async (req, res) => {
+  try {
+    const { newModelName, newPrice, oldPrice } = req.body;
+   // const mobile = await Mobile.findOne({modelName: newModelName});
+    //console.log('new mobile' , mobile)
+
+    const receipt = await Receipt.findById(req.params.id);
+
+    if (!receipt) {
+      return res.status(404).json({ message: 'Receipt not found' });
+    }
+
+    // Purane mobile ka stock +1
+     await Mobile.findOneAndUpdate(
+        { modelName: receipt.modelName },
+        { $inc: { stockQuantity: 1 } }
+      )
+
+    // Naye mobile ka stock -1
+    await Mobile.findOneAndUpdate(
+      { modelName: newModelName },
+      { $inc: { stockQuantity: -1 } }
+    );
+
+    receipt.status = 'exchanged';
+    receipt.oldModelName = receipt.modelName;
+    receipt.modelName = newModelName;
+    receipt.totalPaid = newPrice;
+
+    await receipt.save();
+
+    res.json({ success: true, receipt });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 export default router
