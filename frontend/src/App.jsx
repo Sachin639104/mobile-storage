@@ -29,13 +29,13 @@ export default function App() {
 
   const fetchMobiles = async () => {
     try {
-      const { data } = await api.get("/mobiles");
+      const { data } = await api.get("/api/mobiles"); ///api
       setMobiles(Array.isArray(data) ? data : data.mobiles || []);
     } catch (err) { setMobiles([]); }
   };
 
   const fetchReceipts = async () => {
-    const { data } = await api.get('/mobiles/receipts');
+    const { data } = await api.get('/api/mobiles/receipts'); //api
     setReceipts(data);
   };
 
@@ -56,7 +56,9 @@ export default function App() {
     const cleanPhone = customerInfo.phone.trim();
     if (cleanPhone.length !== 10) return setUiError("Phone must be 10 digits.");
     try {
-      const { data } = await api.post(`/mobiles/buy/${checkoutItem._id}`, {
+      const { data } = await api.post(`/api/mobiles/buy/${checkoutItem._id}`, 
+        //api
+        {
         customerName: customerInfo.name,
         customerPhone: cleanPhone,
         customerAddress: customerInfo.address,
@@ -74,14 +76,16 @@ export default function App() {
   };
 
   const handleReturn = async (receipt) => {
-    await api.patch(`/mobiles/${receipt._id}/return`, { status: 'returned' });
+    await api.patch(`/api/mobiles/${receipt._id}/return`, { status: 'returned' }); //api
     setReturnModal(receipt);
     fetchReceipts();
   };
 
   const handleExchange = async () => {
     const selected = mobiles.find(m => m.modelName === exchangeData.newModelName);
-    await api.patch(`/mobiles/${exchangeModal._id}/exchange`, {
+    await api.patch(`/api/mobiles/${exchangeModal._id}/exchange`,
+      //api
+      {
       newModelName: exchangeData.newModelName,
       newPrice: selected?.price || exchangeData.newPrice,
       oldPrice: exchangeModal.totalPaid
@@ -256,7 +260,7 @@ export default function App() {
                     <button
                       className="btn btn-sm p-0"
                       style={{color:'rgba(255,100,100,0.6)', background:'none', border:'none'}}
-                      onClick={() => api.delete(`/mobiles/${m._id}`).then(fetchMobiles)}
+                      onClick={() => api.delete(`/api/mobiles/${m._id}`).then(fetchMobiles)}
                     >
                       🗑
                     </button>
@@ -298,7 +302,7 @@ export default function App() {
                       const price = prompt("Naya price? (same rakhna ho toh Cancel)");
                       const updateData = { quantity: Number(qty) };
                       if (price) updateData.price = Number(price);
-                      api.patch(`/mobiles/${m._id}/stock`, updateData).then(fetchMobiles);
+                      api.patch(`/api/mobiles/${m._id}/stock`, updateData).then(fetchMobiles);
                     }}
                   >
                     📦 Add Stock
@@ -332,7 +336,7 @@ export default function App() {
             <form onSubmit={async (e) => {
               e.preventDefault();
               const fd = Object.fromEntries(new FormData(e.target));
-              await api.post('/mobiles', fd);
+              await api.post('/api/mobiles', fd);
               fetchMobiles();
               setIsModalOpen(false);
             }}>
